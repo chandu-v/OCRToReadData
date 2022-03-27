@@ -19,7 +19,7 @@ The code is set up to read english language from the image uploaded.
 2. Download the [eng.traineddata](https://github.com/tesseract-ocr/tessdata/blob/main/eng.traineddata) or any other language you want to from [here](https://github.com/tesseract-ocr/tessdata).
 3. Place the eng.traineddata to your %JAVA_HOME\tessdata\ [Eg. C:\Program Files\Java\jdk-13.0.1\bin\tessdata] directory.
 4. Open the project in intellij or sts and run the project.
-5. Hit http:\\\\localhost:8080\upload using the image key and value as the file as shown below:
+5. Hit http://localhost:8080/upload using the image key and value as the file as shown below:
 ![request_image.png](request_image.png)
 ![sample_post_man_request.png](sample_post_man_request.png)
 6. You should see the extracted text as response.

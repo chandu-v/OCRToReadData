@@ -5,10 +5,12 @@ import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.leptonica.PIX;
 import org.bytedeco.tesseract.TessBaseAPI;
+import org.bytedeco.tesseract.presets.tesseract;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.bytedeco.leptonica.global.lept.pixDestroy;
@@ -20,19 +22,28 @@ public class CollectImageServiceImpl implements CollectImageService {
     public String lucasg_path;
     @Override
     public String extractOCRData(MultipartFile image) {
-//        loadLibToPath();
         BytePointer outText;
-        TessBaseAPI api = new TessBaseAPI();
-// Initialize tesseract-ocr with English, without specifying tessdata path
+        TessBaseAPI api = null;
+        try {
+            api = new TessBaseAPI();
+        }catch (Exception e) {
+            e.getLocalizedMessage();
+        }
+// Initialize tesseract-ocr with English, without specifying tessdata pathls
+
         if (api.Init(null, "eng") != 0) {
             System.err.println("Could not initialize tesseract.");
             System.exit(1);
         }
         // Open input image with leptonica library
-//        PIX image = pixRead(args.length > 0 ? args[0] : "/usr/src/tesseract/testing/phototest.tif");
-
         PIX PIXimage = null;
-        PIXimage = pixRead(image.getName());
+        File file = new File(System.getProperty("java.io.tmpdir") + image.getName() + ".png");
+        try {
+            image.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PIXimage = pixRead(file.getPath());
         api.SetImage(PIXimage);
         // Get OCR result
         outText = api.GetUTF8Text();
@@ -42,20 +53,7 @@ public class CollectImageServiceImpl implements CollectImageService {
         api.End();
         outText.deallocate();
         pixDestroy(PIXimage);
-        return null;
-    }
-
-    private void loadLibToPath() {
-        try {
-            Loader.load(TessBaseAPI.class);
-        } catch (UnsatisfiedLinkError e) {
-            String path = null;
-            try {
-                path = Loader.cacheResource(TessBaseAPI.class, "windows-x86_64/jniTessBaseAPI.dll").getPath();
-                new ProcessBuilder(lucasg_path+"/DependenciesGui.exe", path).start().waitFor();
-            } catch (IOException | InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
+        file.deleteOnExit();
+        return outText.getString();
     }
 }

@@ -32,13 +32,29 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.bytedeco/tesseract -->
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.bytedeco/tesseract &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.bytedeco</groupId>-->
+<!--			<artifactId>tesseract</artifactId>-->
+<!--			<version>5.0.1-1.5.7</version>-->
+<!--		</dependency>-->
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.bytedeco/leptonica-platform &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.bytedeco</groupId>-->
+<!--			<artifactId>leptonica-platform</artifactId>-->
+<!--			<version>1.82.0-1.5.7</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.bytedeco</groupId>
-			<artifactId>tesseract</artifactId>
-			<version>4.1.0-1.5.2</version>
+			<artifactId>javacv-platform</artifactId>
+			<version>1.5.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bytedeco</groupId>
+					<artifactId>opencv-platform</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -53,6 +69,27 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+<!--					<modules>-->
+<!--						<module>-->
+<!--							<file>${project.build.directory}/${project.artifactId}.jar</file>-->
+<!--							<moduleInfoSource>-->
+<!--								module org.bytedeco.${javacpp.moduleId}.platform {-->
+<!--								//                      requires static org.bytedeco.${javacpp.moduleId}.android.arm;-->
+<!--								//                      requires static org.bytedeco.${javacpp.moduleId}.android.arm64;-->
+<!--								//                      requires static org.bytedeco.${javacpp.moduleId}.android.x86;-->
+<!--								//                      requires static org.bytedeco.${javacpp.moduleId}.android.x86_64;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.linux.x86;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.linux.x86_64;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.linux.armhf;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.linux.arm64;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.linux.ppc64le;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.macosx.x86_64;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.windows.x86;-->
+<!--								requires static org.bytedeco.${javacpp.moduleId}.windows.x86_64;-->
+<!--								}-->
+<!--							</moduleInfoSource>-->
+<!--						</module>-->
+<!--					</modules>-->
 				</configuration>
 			</plugin>
 		</plugins>
